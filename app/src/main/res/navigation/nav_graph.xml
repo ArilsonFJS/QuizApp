@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph.xml">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/splashFragment2">
 
+    <fragment
+        android:id="@+id/splashFragment2"
+        android:name="com.views.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment2_to_inscrevaseFragment"
+            app:destination="@id/inscrevaseFragment" />
+        <action
+            android:id="@+id/action_splashFragment2_to_listaFragment"
+            app:destination="@+id/listaFragment"
+            />
+        <action
+            android:id="@+id/action_splashFragment2_to_entrarFragment"
+            app:destination="@+id/entrarFragment"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inscrevaseFragment"
+        android:name="com.views.InscrevaseFragment"
+        android:label="InsecrevaseFragment"
+        tools:layout="@layout/fragment_inscrevase">
+
+        <action
+            android:id="@+id/action_inscrevaseFragment_to_entrarFragment"
+            app:destination="@id/entrarFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/entrarFragment"
+        android:name="com.views.EntrarFragment"
+        android:label="EntrarFragment"
+        tools:layout="@layout/fragment_entrar">
+        <action
+            android:id="@+id/action_entrarFragment_to_inscrevaseFragment"
+            app:destination="@id/inscrevaseFragment" />
+        <action
+            android:id="@+id/action_entrarFragment_to_listaFragment"
+            app:destination="@id/listaFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/listaFragment"
+        android:name="com.views.ListaFragment"
+        android:label="fragment_lista"
+        tools:layout="@layout/fragment_lista" >
+        <action
+            android:id="@+id/action_listaFragment_to_detalheFragment"
+            app:destination="@id/detalheFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detalheFragment"
+        android:name="com.views.DetalheFragment"
+        android:label="fragment_detalhe"
+        tools:layout="@layout/fragment_detalhe" >
+        <action
+            android:id="@+id/action_detalheFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.views.QuizFragment"
+        android:label="fragment_quiz"
+        tools:layout="@layout/fragment_quiz" >
+        <action
+            android:id="@+id/action_quizFragment_to_resultadoFragment"
+            app:destination="@id/resultadoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultadoFragment"
+        android:name="com.views.ResultadoFragment"
+        android:label="fragment_resultado"
+        tools:layout="@layout/fragment_resultado" >
+        <action
+            android:id="@+id/action_resultadoFragment_to_listaFragment"
+            app:destination="@id/listaFragment" />
+    </fragment>
 </navigation>
