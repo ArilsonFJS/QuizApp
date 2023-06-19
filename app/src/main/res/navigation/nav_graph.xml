@@ -77,6 +77,14 @@
         <action
             android:id="@+id/action_quizFragment_to_resultadoFragment"
             app:destination="@id/resultadoFragment" />
+        <argument
+            android:name="quizId"
+            app:argType="string"
+            android:defaultValue="null" />
+        <argument
+            android:name="totalQuizCount"
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
     <fragment
         android:id="@+id/resultadoFragment"
