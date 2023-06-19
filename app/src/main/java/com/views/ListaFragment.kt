@@ -21,7 +21,7 @@ import com.viewmodel.AuthViewModel
 import com.viewmodel.QuizListaViewModel
 
 
-class ListaFragment : Fragment() {
+class ListaFragment : Fragment(), QuizListaAdapter.OnItemClickedListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -46,25 +46,33 @@ class ListaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         recyclerView = view.findViewById(R.id.listaQuizRecyclerview)
-         progressBar = view.findViewById(R.id.quizListaProgressBar)
-         navController = Navigation.findNavController(view)
+        recyclerView = view.findViewById(R.id.listaQuizRecyclerview)
+        progressBar = view.findViewById(R.id.quizListaProgressBar)
+        navController = Navigation.findNavController(view)
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        adapter = QuizListaAdapter()
+        adapter = QuizListaAdapter(this);
         recyclerView.adapter = adapter
 
-        viewModel.quizListaLiveData.observe(viewLifecycleOwner, Observer<List<QuizListaModel>> { quizList ->
+        viewModel.quizListaLiveData.observe(
+            viewLifecycleOwner,
+            Observer<List<QuizListaModel>> { quizList ->
 
-            val quizListaModel: List<QuizListaModel> = quizList ?: emptyList()
+                val quizListaModel: List<QuizListaModel> = quizList ?: emptyList()
 
-            progressBar.visibility = View.GONE
-            adapter.setQuizListaModel(quizListaModel)
-            adapter.notifyDataSetChanged()
+                progressBar.visibility = View.GONE
+                adapter.setQuizListaModel(quizListaModel)
+                adapter.notifyDataSetChanged()
 
-        })
+            })
 
+    }
+
+    override fun onItemClick(position: Int) {
+        val action = ListaFragmentDirections.actionListaFragmentToDetalheFragment()
+        action.setPosition(position)
+        navController.navigate(action)
     }
 }
