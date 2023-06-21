@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModel;
 import com.Model.PerguntaModel;
 import com.repository.PerguntaRepository;
 
+import java.util.HashMap;
 import java.util.List;
 
-public class PerguntaViewModel extends ViewModel implements PerguntaRepository.OnPerguntaLoad {
+public class PerguntaViewModel extends ViewModel implements PerguntaRepository.OnPerguntaLoad, PerguntaRepository.OnResultAdded {
 
     private MutableLiveData<List<PerguntaModel>> perguntaMutableLiveData;
     private PerguntaRepository repository;
@@ -25,7 +26,11 @@ public class PerguntaViewModel extends ViewModel implements PerguntaRepository.O
 
     public PerguntaViewModel(){
         perguntaMutableLiveData = new MutableLiveData<>();
-        repository = new PerguntaRepository(this);
+        repository = new PerguntaRepository(this,this);
+    }
+
+    public void addResults(HashMap<String, Object> resultMap){
+        repository.addResultado(resultMap);
     }
 
     public void setQuizId(String quizId){
@@ -35,6 +40,11 @@ public class PerguntaViewModel extends ViewModel implements PerguntaRepository.O
     @Override
     public void onLoad(List<PerguntaModel> perguntaModels) {
         perguntaMutableLiveData.setValue(perguntaModels);
+    }
+
+    @Override
+    public boolean onSubmit() {
+        return true;
     }
 
     @Override
