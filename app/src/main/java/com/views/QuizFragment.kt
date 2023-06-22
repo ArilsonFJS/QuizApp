@@ -84,6 +84,7 @@ class QuizFragment : Fragment(), View.OnClickListener {
         quizId = arguments?.let { QuizFragmentArgs.fromBundle(it).quizId }.toString()
         totalPerguntas = arguments?.let { QuizFragmentArgs.fromBundle(it).totalQuizCount }!!
         viewModel.setQuizId(quizId)
+        viewModel.getPerguntas()
 
         btnOpcA.setOnClickListener (this)
         btnOpcB.setOnClickListener (this)
@@ -122,11 +123,13 @@ class QuizFragment : Fragment(), View.OnClickListener {
 
 
     }
+    @SuppressLint("SetTextI18n")
     private fun carregarPerguntas(i: Int) {
 
         perguntaAtualNum = i
         viewModel.perguntaMutableLiveData.observe(viewLifecycleOwner, Observer {
             pergunta.text = it[i-1].pergunta
+            pergunta.text = perguntaAtualNum.toString() + ") " + it[i - 1].pergunta;
             btnOpcA.text = it [i-1].opcao_a
             btnOpcB.text = it [i-1].opcao_b
             btnOpcC.text = it [i-1].opcao_c
@@ -134,9 +137,11 @@ class QuizFragment : Fragment(), View.OnClickListener {
             btnOpcE.text = it [i-1].opcao_e
             tempo = it [i-1].tempo
             resposta = it [i-1].resposta
+
+            perguntaNumero.text = perguntaAtualNum.toString()
+            startTempo()
         })
 
-        startTempo()
         podePerguntar = true
     }
 
@@ -229,8 +234,10 @@ class QuizFragment : Fragment(), View.OnClickListener {
         resultMap.put("errada", respostaErrada);
         resultMap.put("semResposta", naoRespondida);
 
-       viewModel.addResults(resultMap)
-        navController.navigate(R.id.action_quizFragment_to_resultadoFragment)
+        val action = QuizFragmentDirections.actionQuizFragmentToResultadoFragment()
+        action.quizId = quizId
+        navController.navigate(action)
+
     }
 
     @SuppressLint("SetTextI18n")

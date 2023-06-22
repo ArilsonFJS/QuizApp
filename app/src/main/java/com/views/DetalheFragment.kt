@@ -81,7 +81,7 @@ class DetalheFragment : Fragment() {
             },200);
 
             totalQuizCount = quiz.perguntas
-            quizId = quiz.quizID
+            quizId = quiz.quizId
         })
 
         btnInicarQuiz.setOnClickListener {

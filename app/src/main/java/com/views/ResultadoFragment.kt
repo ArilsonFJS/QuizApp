@@ -1,34 +1,38 @@
 package com.views
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.myapplication.R
+import com.google.android.play.core.integrity.e
+import com.viewmodel.PerguntaViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private lateinit var navController: NavController
+private lateinit var viewModel: PerguntaViewModel
+private lateinit var respostaCertas: TextView
+private lateinit var respostaErradas: TextView
+private lateinit var naoResposdidas: TextView
+private lateinit var porcetagem: TextView
+private lateinit var pontuacaoProgressBar: ProgressBar
+private var quizId: String = ""
+private lateinit var btnHome: Button;
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ResultadoFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ResultadoFragment : Fragment() {
-
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        viewModel = ViewModelProvider(this).get(PerguntaViewModel::class.java);
     }
 
     override fun onCreateView(
@@ -39,23 +43,44 @@ class ResultadoFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_resultado, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ResultadoFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ResultadoFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        navController = Navigation.findNavController(view)
+        respostaCertas = view.findViewById(R.id.textRespostasCertas)
+        respostaErradas = view.findViewById(R.id.textRespostasErradas)
+        naoResposdidas = view.findViewById(R.id.textNaoRepondido)
+        porcetagem = view.findViewById(R.id.textResultadoPorcentagemBar)
+        pontuacaoProgressBar = view.findViewById(R.id.resultCountProgressBar)
+        btnHome = view.findViewById(R.id.btnHome)
+
+
+        btnHome.setOnClickListener {
+            navController.navigate(R.id.action_resultadoFragment_to_listaFragment)
+        }
+
+        quizId = arguments?.let { ResultadoFragmentArgs.fromBundle(it).quizId }.toString()
+        viewModel.setQuizId(quizId)
+        viewModel.getResults()
+        viewModel.resultMutableLiveData.observe(viewLifecycleOwner, Observer { result ->
+            if(result != null){
+                var correta : Long = result["correta"]!!
+                var errada : Long = result["errada"]!!
+                var semResposta : Long = result["semResposta"]!!
+
+                respostaCertas.text = correta.toString()
+                respostaErradas.text = errada.toString()
+                naoResposdidas.text = semResposta.toString()
+
+                var total : Long = correta + errada + semResposta
+                var porcet : Long = (correta * 100)/total
+
+                porcetagem.text = porcet.toString()
+                pontuacaoProgressBar.progress = porcet.toInt()
+            }else{
+                Log.d("QUIZ ERROR", "onError")
             }
+        })
+
     }
 }

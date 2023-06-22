@@ -5,25 +5,25 @@ import com.google.firebase.firestore.DocumentId;
 public class QuizListaModel {
 
     @DocumentId
-    private String quizID;
+    private String quizId;
     private String titulo, imagem, dificuldade;
     private long perguntas;
 
     public QuizListaModel(){}
-    public QuizListaModel(String quizID, String titulo, String imagem, String dificuldade, long perguntas) {
-        this.quizID = quizID;
+    public QuizListaModel(String quizId, String titulo, String imagem, String dificuldade, long perguntas) {
+        this.quizId = quizId;
         this.titulo = titulo;
         this.imagem = imagem;
         this.dificuldade = dificuldade;
         this.perguntas = perguntas;
     }
 
-    public String getQuizID() {
-        return quizID;
+    public String getQuizId() {
+        return quizId;
     }
 
-    public void setQuizID(String quizID) {
-        this.quizID = quizID;
+    public void setQuizId(String quizId) {
+        this.quizId = quizId;
     }
 
     public String getTitulo() {

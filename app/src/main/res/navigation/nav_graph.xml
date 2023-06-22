@@ -97,5 +97,9 @@
         <action
             android:id="@+id/action_resultadoFragment_to_listaFragment"
             app:destination="@id/listaFragment" />
+        <argument
+            android:name="quizId"
+            app:argType="string"
+            android:defaultValue="null" />
     </fragment>
 </navigation>
