@@ -220,11 +220,11 @@ class QuizFragment : Fragment(), View.OnClickListener {
         feedbackResposta.visibility = View.INVISIBLE
         btnProximaPergunta.visibility = View.INVISIBLE
         btnProximaPergunta.isEnabled = false
-        btnOpcA.background = context?.let { ContextCompat.getDrawable(it, R.color.azul_escuro) }
-        btnOpcB.background = context?.let { ContextCompat.getDrawable(it, R.color.azul_escuro) }
-        btnOpcC.background = context?.let { ContextCompat.getDrawable(it, R.color.azul_escuro) }
-        btnOpcD.background = context?.let { ContextCompat.getDrawable(it, R.color.azul_escuro) }
-        btnOpcE.background = context?.let { ContextCompat.getDrawable(it, R.color.azul_escuro) }
+        btnOpcA.background = context?.let { ContextCompat.getDrawable(it, R.color.laranja) }
+        btnOpcB.background = context?.let { ContextCompat.getDrawable(it, R.color.laranja) }
+        btnOpcC.background = context?.let { ContextCompat.getDrawable(it, R.color.laranja) }
+        btnOpcD.background = context?.let { ContextCompat.getDrawable(it, R.color.laranja) }
+        btnOpcE.background = context?.let { ContextCompat.getDrawable(it, R.color.laranja) }
     }
 
 
@@ -233,6 +233,8 @@ class QuizFragment : Fragment(), View.OnClickListener {
         resultMap.put("correta", respostaCerta);
         resultMap.put("errada", respostaErrada);
         resultMap.put("semResposta", naoRespondida);
+
+        viewModel.addResults(resultMap)
 
         val action = QuizFragmentDirections.actionQuizFragmentToResultadoFragment()
         action.quizId = quizId
